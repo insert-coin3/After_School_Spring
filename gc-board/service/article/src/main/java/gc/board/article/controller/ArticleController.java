@@ -14,7 +14,7 @@ public class ArticleController {
 
     //읽기
     @GetMapping("/v1/articles/{articleId}")
-    public ArticleResponse get(@PathVariable long articleId) {
+    public ArticleResponse read(@PathVariable long articleId) {
         return articleService.read(articleId);
     }
 
