@@ -8,4 +8,24 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-//�
+//데이터베이스에 접근해주는 코드..
+@Repository
+public interface ArticleRepository extends JpaRepository<Article,Long> {
+    @Query(
+            value = "select article.article_id, article.title, article.content, " +
+                    "article.board_id, article.writer_id, article.created_at," +
+                    "article.modified_at " +
+                    "from (" +
+                    "   select article_id from article" +
+                    "   where board_id = :boardId " +
+                    "   order by article_id desc" +
+                    "   limit :limit offset :offset" +
+                    ") t left join article on t.article_id = article.article_id",
+            nativeQuery = true
+    )
+    List<Article> findAll(
+            @Param("boardId") long boardId,
+            @Param("offset") long offset,
+            @Param("limit") long limit
+    );
+}

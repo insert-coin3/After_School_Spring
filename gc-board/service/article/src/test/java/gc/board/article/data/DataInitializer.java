@@ -22,7 +22,7 @@ public class DataInitializer {
     Snowflake snowflake = new Snowflake();
     CountDownLatch latch = new CountDownLatch(EXECUTE_COUNT);
 
-    static final int BULK_INSERT_COUNT = 2000;
+    static final int BULK_INSERT_COUNT = 1000;
     static final int EXECUTE_COUNT = 3000;
 
     @Test
