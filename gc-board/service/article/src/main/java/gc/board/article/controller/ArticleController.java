@@ -1,6 +1,7 @@
 package gc.board.article.controller;
 
 import gc.board.article.service.ArticleService;
+import gc.board.article.service.reponse.ArticlePageResponse;
 import gc.board.article.service.reponse.ArticleResponse;
 import gc.board.article.service.request.ArticleCreateRequest;
 import gc.board.article.service.request.ArticleUpdateRequest;
@@ -16,6 +17,16 @@ public class ArticleController {
     @GetMapping("/v1/articles/{articleId}")
     public ArticleResponse read(@PathVariable long articleId) {
         return articleService.read(articleId);
+    }
+
+    //목록조회
+    @GetMapping("/v1/articles")
+    public ArticlePageResponse readAll(
+            @RequestParam("boardId") Long boardId,
+            @RequestParam("page") Long page,
+            @RequestParam("pageSize") Long pageSize
+    ) {
+        return articleService.readAll(boardId, page, pageSize);
     }
 
     //생성

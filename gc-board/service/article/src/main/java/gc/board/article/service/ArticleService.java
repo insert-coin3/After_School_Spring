@@ -2,6 +2,7 @@ package gc.board.article.service;
 
 import gc.board.article.entity.Article;
 import gc.board.article.repository.ArticleRepository;
+import gc.board.article.service.reponse.ArticlePageResponse;
 import gc.board.article.service.reponse.ArticleResponse;
 import gc.board.article.service.request.ArticleCreateRequest;
 import gc.board.article.service.request.ArticleUpdateRequest;
@@ -44,6 +45,18 @@ public class ArticleService {
     public ArticleResponse read(Long articleId) {
         Article article = articleRepository.findById(articleId).orElseThrow();
         return ArticleResponse.from(article);
+    }
+
+    public ArticlePageResponse readAll(long boardId, long page, long pageSize) {
+        return ArticlePageResponse.of(
+                articleRepository.findAll(boardId, (page -1)*pageSize, pageSize).stream()
+                        .map(ArticleResponse::from)
+                        .toList(),
+                articleRepository.count(
+                        boardId,
+                        PageLimitCalculator.calculatePageLimit(page, pageSize, 10L)
+                )
+        );
     }
 
     //삭제!
